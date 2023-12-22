@@ -1,0 +1,91 @@
+import 'dart:io';
+
+class TicTacToe {
+  late List<String> board;
+  late String currentPlayer;
+
+  TicTacToe() {
+    board = List.filled(9, ' ');
+    currentPlayer = 'X';
+  }
+
+  void displayBoard() {
+    print(' ${board[0]} | ${board[1]} | ${board[2]} ');
+    print('-----------');
+    print(' ${board[3]} | ${board[4]} | ${board[5]} ');
+    print('-----------');
+    print(' ${board[6]} | ${board[7]} | ${board[8]} ');
+  }
+
+  bool makeMove(int position) {
+    if (position < 1 || position > 9 || board[position - 1] != ' ') {
+      return false;
+    }
+
+    board[position - 1] = currentPlayer;
+    return true;
+  }
+
+  bool checkWin() {
+    // Check rows, columns, and diagonals for a win
+    return (board[0] != ' ' && board[0] == board[1] && board[1] == board[2]) ||
+        (board[3] != ' ' && board[3] == board[4] && board[4] == board[5]) ||
+        (board[6] != ' ' && board[6] == board[7] && board[7] == board[8]) ||
+        (board[0] != ' ' && board[0] == board[3] && board[3] == board[6]) ||
+        (board[1] != ' ' && board[1] == board[4] && board[4] == board[7]) ||
+        (board[2] != ' ' && board[2] == board[5] && board[5] == board[8]) ||
+        (board[0] != ' ' && board[0] == board[4] && board[4] == board[8]) ||
+        (board[2] != ' ' && board[2] == board[4] && board[4] == board[6]); 
+  }
+
+  bool isBoardFull() {
+    return !board.contains(' ');
+  }
+
+  void switchPlayer() {
+    currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+  }
+
+  void startGame() {
+    print('Welcome to Tic-Tac-Toe!');
+    displayBoard();
+
+    while (true) {
+      stdout.write('Player $currentPlayer, enter your move (1-9): ');
+      int? move = int.tryParse(stdin.readLineSync() ?? '');
+
+      if (move == null || !makeMove(move)) {
+        print('Invalid move. Please try again.');
+        continue;
+      }
+
+      displayBoard();
+
+      if (checkWin()) {
+        print('Player $currentPlayer wins! Congratulations!');
+        break;
+      }
+
+      if (isBoardFull()) {
+        print('It\'s a draw! The board is full.');
+        break;
+      }
+
+      switchPlayer();
+    }
+
+    stdout.write('Do you want to play again? (yes/no): ');
+    String? playAgain = stdin.readLineSync()?.toLowerCase();
+    if (playAgain == 'yes') {
+      board = List.filled(9, ' ');
+      currentPlayer = 'X';
+      startGame();
+    } else {
+      print('Thanks for playing!');
+    }
+  }
+}
+
+void main() {
+  TicTacToe().startGame();
+}
