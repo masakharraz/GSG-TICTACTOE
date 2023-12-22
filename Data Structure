@@ -1,0 +1,73 @@
+Challenge 1: Reverse a List
+dart
+Copy code
+void reverseList(List<int> list) {
+  for (int i = list.length - 1; i >= 0; i--) {
+    print(list[i]);
+  }
+}
+
+void main() {
+  List<int> myNumbers = [1, 2, 3, 4, 5];
+  print("Original List:");
+  print(myNumbers);
+  print("\nReversed List:");
+  reverseList(myNumbers);
+}
+Challenge 2: Balance the Parentheses
+dart
+Copy code
+bool isBalancedParentheses(String expression) {
+  int count = 0;
+  for (int i = 0; i < expression.length; i++) {
+    if (expression[i] == '(') {
+      count++;
+    } else if (expression[i] == ')') {
+      count--;
+      if (count < 0) {
+        return false;
+      }
+    }
+  }
+  return count == 0;
+}
+
+void main() {
+  String expression = "((())())";
+  print("Is Balanced: ${isBalancedParentheses(expression)}");
+}
+Linked List
+Challenge 1: Print in Reverse
+dart
+Copy code
+class Node {
+  int data;
+  Node? next;
+
+  Node(this.data);
+}
+
+void printInReverse(Node? head) {
+  if (head == null) {
+    return;
+  }
+  printInReverse(head.next);
+  print(head.data);
+}
+
+void main() {
+  Node head = Node(1)
+    ..next = Node(2)
+    ..next!.next = Node(3)
+    ..next!.next!.next = Node(4);
+  
+  print("Original Linked List:");
+  Node? current = head;
+  while (current != null) {
+    print(current.data);
+    current = current.next;
+  }
+
+  print("\nLinked List in Reverse:");
+  printInReverse(head);
+}
